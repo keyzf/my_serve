@@ -22,8 +22,8 @@ function forEachSql(message){
   sqlTable.forEach((item,index) => {
     sql(item,message);
     if(Data){
-      Data.forEach((data,num)=>{
-        if (receiveVal[index][num] != data) {
+      Data.forEach((data)=>{
+        if (receiveVal[index][data] != data) {
           status = 1;
         }
       })
