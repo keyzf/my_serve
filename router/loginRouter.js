@@ -16,14 +16,16 @@ const sqlSeach1 = "select * from login where userName = ? and password = ?"
  */
 router.post("/login", (req, res) => {
     const {
-        usrName,
+        userName,
         password
     } = req.body;
+
     const params = [
-        usrName,
+        userName,
         password
     ];
     db.exec(sqlSeach1, params, (err, data, fields) => {
+        console.log(req.body)
         console.log(params)
         if (err) {
             res.send({
