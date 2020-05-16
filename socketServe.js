@@ -11,19 +11,23 @@ function sql(sql,message) {
       if (err) {
         console.log(err);
       } else {
-        if(sql == "aircondition"){
-          Data = []
-        }
-        let JsonData = JSON.parse(JSON.stringify(data));
-        Data = [...JsonData, ...Data];
+         Data = JSON.parse(JSON.stringify(data));
+        console.log(Data,"Data")
       }
     }
   );
 }
 function forEachSql(message){
-  sqlTable.forEach((item) => {
-    console.log(item,Data)
+  sqlTable.forEach((item,index) => {
     sql(item,message);
+    if(Data){
+      Data.forEach((data,num)=>{
+        if (receiveVal[index][num] != data) {
+          status = 1;
+        }
+      })
+      receiveVal[index] = Data
+    }  
   });
 }
 wss.on("connection", (client) => {
@@ -33,20 +37,6 @@ wss.on("connection", (client) => {
     check = setInterval(() => {
       let status = 0; 
       forEachSql(message)  
-      if (receiveVal.length == Data.length) {
-        console.log(receiveVal.length,"receiveVal.length")
-        receiveVal.forEach((item, index) => {
-          for (let element in item) {
-            if (receiveVal[index][element] != Data[index][element]) {
-              // console.log(receiveVal[index][element],"receiveVal[index][element]");
-              // console.log(Data[index][element],"Data[index][element]");
-              status = 1;
-            }
-          }
-        });
-      } else {
-        status = 1;
-      }
       if (status == 1) {
         client.send(JSON.stringify(Data));
         receiveVal = Data;
