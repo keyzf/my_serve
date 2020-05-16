@@ -24,17 +24,24 @@ router.post("/login", (req, res) => {
         password
     ];
     db.exec(sqlSeach1, params, (err, data, fields) => {
+        console.log(data)
         if (err) {
             res.send({
-                mes: "账号或密码错误",
-                inf: "",
+                mes: "sql语句错误",
+                inf: err,
                 err: -1,
             });
-        } else {
+        } else if (data) {
             res.send({
                 mes: "登录成功",
                 inf: "",
                 err: 0,
+            });
+        } else {
+            res.send({
+                mes: "账号或密码错误",
+                inf: "",
+                err: -2,
             });
         }
     })
