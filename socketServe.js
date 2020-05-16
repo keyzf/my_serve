@@ -32,7 +32,7 @@ wss.on("connection", (client) => {
     check = setInterval(() => {
       let status = 0; 
       forEachSql(message)  
-      console.log(data,"data")
+      console.log(Data,"data")
       if (receiveVal.length == Data.length) {
         console.log(receiveVal.length,"receiveVal.length")
         receiveVal.forEach((item, index) => {
