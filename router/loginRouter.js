@@ -34,10 +34,10 @@ router.post("/login", (req, res) => {
                 inf: err,
                 err: -1,
             });
-        } else if (data.lenght >= 1) {
+        } else if (data.length >= 1) {
             res.send({
                 mes: "登录成功",
-                inf: "",
+                inf: data,
                 err: 0,
             });
         } else {
