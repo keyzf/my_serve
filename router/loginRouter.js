@@ -1,0 +1,42 @@
+const express = require("express");
+const router = express.Router();
+const db = require("../mysql/mysql");
+const sqlSeach1 = "select * from login where userName = ? and password = ?"
+// const roommodel = require("../db/model/roommodel")
+/**
+ * @api {post} /room/airCondition 设备信息表
+ * @apiVersion 0.0.1
+ * @apiName 获取登录信息
+ * @apiGroup 登录信息
+ *
+ * @apiParam {String} userName 用户名*
+ * @apiParam {String} passward 密码
+ *
+ * @apiSuccess {Array} inf 登录信息
+ */
+router.post("/login", (req, res) => {
+    const {
+        usrName,
+        password
+    } = req.body;
+    const params = [
+        usrName,
+        password
+    ];
+    db.exec(sqlSeach1, params, (err, data, fields) => {
+        if (err) {
+            res.send({
+                mes: "账号或密码错误",
+                inf: "",
+                err: -1,
+            });
+        } else {
+            res.send({
+                mes: "登录成功",
+                inf: "",
+                err: 0,
+            });
+        }
+    })
+})
+module.exports = router;
