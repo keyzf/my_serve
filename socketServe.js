@@ -22,6 +22,7 @@ function sql(sql,message) {
 }
 function forEachSql(message){
   sqlTable.forEach((item) => {
+    console.log(item,Data)
     sql(item,message);
   });
 }
@@ -32,7 +33,6 @@ wss.on("connection", (client) => {
     check = setInterval(() => {
       let status = 0; 
       forEachSql(message)  
-      console.log(Data,"data")
       if (receiveVal.length == Data.length) {
         console.log(receiveVal.length,"receiveVal.length")
         receiveVal.forEach((item, index) => {
