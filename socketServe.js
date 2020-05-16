@@ -27,18 +27,19 @@ function forEachSql(message){
 }
 wss.on("connection", (client) => {
   client.on("message", (message) => {
-    console.log("received: %s", message);
+    // console.log("received: %s", message);
     clearInterval(check);
     check = setInterval(() => {
       let status = 0; 
       forEachSql(message)  
+      console.log(data,"data")
       if (receiveVal.length == Data.length) {
         console.log(receiveVal.length,"receiveVal.length")
         receiveVal.forEach((item, index) => {
           for (let element in item) {
             if (receiveVal[index][element] != Data[index][element]) {
-              console.log(receiveVal[index][element],"receiveVal[index][element]");
-              console.log(Data[index][element],"Data[index][element]");
+              // console.log(receiveVal[index][element],"receiveVal[index][element]");
+              // console.log(Data[index][element],"Data[index][element]");
               status = 1;
             }
           }

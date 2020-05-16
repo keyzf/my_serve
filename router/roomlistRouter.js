@@ -40,12 +40,10 @@ router.post("/roomlist", (req, res) => {
       }
     });
   } else if (!req.body.roomName) {
-    console.log("请求次数1",i++)
     db.exec(sqlSeach2, (err, data, fields) => {
       if(err){
         console.log(err)
       }
-      console.log("请求次数2",i++)
       res.send({
         inf: data,
         err: 0,
