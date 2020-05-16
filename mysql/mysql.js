@@ -21,7 +21,6 @@ let exec =(sql,params,callback) => {
             console.log('error when connecting to db:', err);
             callback(err,null,null)
         }else{
-            console.log("连接",i++)
             if(params === null || params.length === 0){
                 con.query(sql,(err,result,fields)=>{
                     callback(err,result,fields)  

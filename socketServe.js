@@ -51,7 +51,7 @@ wss.on("connection", (client) => {
         client.send(JSON.stringify(Data));
         receiveVal = Data;
       }
-    }, 1000);
+    }, 5000);
   });
   client.on("close", () => {
     clearInterval(check);
