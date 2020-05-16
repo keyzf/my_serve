@@ -7,10 +7,7 @@ let check = "";
 const sqlTable = ["aircondition", "door", "heater", "lamp", "sound"];
 console.log("开始建立连接...");
 function sql(sql,message) {
-  db.exec(
-    `select * from ${sql} where name = ?`,
-    [message],
-    (err, data, fields) => {
+  db.exec(`select * from ${sql} where name = ?`,[message],(err, data, fields) => {
       if (err) {
         console.log(err);
       } else {
@@ -31,19 +28,17 @@ function forEachSql(message){
 wss.on("connection", (client) => {
   client.on("message", (message) => {
     console.log("received: %s", message);
-    if(message){
-      client.send(JSON.stringify(Data));
-    }
     clearInterval(check);
     check = setInterval(() => {
       let status = 0; 
       forEachSql(message)  
       if (receiveVal.length == Data.length) {
-        // console.log("send1")
+        console.log(receiveVal.length,"receiveVal.length")
         receiveVal.forEach((item, index) => {
           for (let element in item) {
             if (receiveVal[index][element] != Data[index][element]) {
-              console.log("send2")
+              console.log(receiveVal[index][element],"receiveVal[index][element]");
+              console.log(Data[index][element],"Data[index][element]");
               status = 1;
             }
           }
