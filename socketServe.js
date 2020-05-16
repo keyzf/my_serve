@@ -20,19 +20,24 @@ function sql(sql,message) {
 function forEachSql(message){
   sqlTable.forEach((item,index) => {
     sql(item,message);
-    if(Data){
+    if(Data.length >=1 && receiveVal[index].length >=1){
       Data.forEach((data)=>{
         if (receiveVal[index][data] != data) {
           status = 1;
         }
-      })
+      })      
+    } else{
+      status = 1;
       receiveVal[index] = Data
-    }  
+    }
   });
 }
 wss.on("connection", (client) => {
   client.on("message", (message) => {
     // console.log("received: %s", message);
+    if(message){
+
+    }
     clearInterval(check);
     check = setInterval(() => {
       status = 0; 
