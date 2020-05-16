@@ -20,7 +20,7 @@ function sql(sql,message) {
 function forEachSql(message){
   sqlTable.forEach((item,index) => {
     sql(item,message);
-    if(Data.length >=1 && receiveVal[index].length >=1){
+    if(Data.length >=1 && receiveVal[index]){
       Data.forEach((data)=>{
         if (receiveVal[index][data] != data) {
           status = 1;
