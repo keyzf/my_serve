@@ -13,7 +13,6 @@ function sql(sql,message) {
         console.log(err);
       } else {
          Data = JSON.parse(JSON.stringify(data));
-        console.log(Data,"Data")
       }
     }
   );
@@ -42,7 +41,7 @@ wss.on("connection", (client) => {
         client.send(JSON.stringify(Data));
         receiveVal = Data;
       }
-    }, 5000);
+    }, 1000);
   });
   client.on("close", () => {
     clearInterval(check);
