@@ -31,7 +31,7 @@ router.post("/login", (req, res) => {
                 inf: err,
                 err: -1,
             });
-        } else if (data) {
+        } else if (data.lenght >= 1) {
             res.send({
                 mes: "登录成功",
                 inf: "",
