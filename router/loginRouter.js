@@ -27,6 +27,7 @@ router.post("/login", (req, res) => {
     db.exec(sqlSeach1, params, (err, data, fields) => {
         console.log(req.body)
         console.log(params)
+        console.log(data)
         if (err) {
             res.send({
                 mes: "sql语句错误",
