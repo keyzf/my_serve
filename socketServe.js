@@ -4,6 +4,7 @@ const wss = new webSocket.Server({ port: 8081 });
 let receiveVal = [];
 let Data = [];
 let check = "";
+let status = 0
 const sqlTable = ["aircondition", "door", "heater", "lamp", "sound"];
 console.log("开始建立连接...");
 function sql(sql,message) {
@@ -35,7 +36,7 @@ wss.on("connection", (client) => {
     // console.log("received: %s", message);
     clearInterval(check);
     check = setInterval(() => {
-      let status = 0; 
+      status = 0; 
       forEachSql(message)  
       if (status == 1) {
         client.send(JSON.stringify(Data));
