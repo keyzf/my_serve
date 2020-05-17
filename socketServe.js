@@ -31,11 +31,11 @@ function sql(sql, message) {
 //查询五个表数据，是否含有
 function forEachSql(message,client) {
   sqlTable.forEach((item, index) => {
-    console.log(item, message)
     sql(item, message).then(() => {
       // 初始化后监听数据库的变化
       //判断查询是否只有一项
       if (!init && Data.length == 1) {
+        console.log(Data[0],receiveVal[index][0],"Data[0],receiveVal[index][0]")
         for(let data in Data[0]){
           if (data != receiveVal[index][0][data]) {
             client.send(JSON.stringify(Data));
