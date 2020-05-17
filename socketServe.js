@@ -35,7 +35,7 @@ function forEachSql(message,client) {
       // 初始化后监听数据库的变化
       //判断查询是否只有一项
       if (!init && Data.length == 1) {
-        console.log(Data,receiveVal[index],"Data[0],receiveVal[index][0]")
+        console.log(Data,receiveVal,"Data[0],receiveVal[index][0]")
         for(let data in Data[0]){
           if (data != receiveVal[index][0][data]) {
             client.send(JSON.stringify(Data));
@@ -55,6 +55,7 @@ function forEachSql(message,client) {
         })
       }
       receiveVal[index] = Data
+      console.log(receiveVal[index])
     });
 
   });
