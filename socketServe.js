@@ -18,7 +18,7 @@ function sql(sql, message) {
         console.log(err);
       } else {
         Data = JSON.parse(JSON.stringify(data));//查询所得数据
-        if (Data.length) {
+        if (Data.length && init) {
           iniDate = [...Data, ...iniDate]//初始化数据
           console.log(iniDate, index++)
         }
@@ -35,7 +35,7 @@ function forEachSql(message,client) {
     sql(item, message).then(() => {
       // 初始化后监听数据库的变化
       //判断查询是否只有一项
-      if (!ini && Data.length == 1) {
+      if (!init && Data.length == 1) {
         for(let data in Data[0]){
           if (data != receiveVal[index][0][data]) {
             client.send(JSON.stringify(Data));
@@ -63,7 +63,6 @@ wss.on("connection", (client) => {
   client.on("message", (message) => {
     clearInterval(check);
     check = setInterval(() => {
-      status = 0;
       forEachSql(message,client)
       if (init) {
         //传输初始化数据
