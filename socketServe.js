@@ -7,7 +7,6 @@ let check = "";
 let status = 0;
 let init = 1;
 let iniDate = [];
-let index = 1;
 const sqlTable = ["aircondition", "door", "heater", "lamp", "sound"];
 console.log("开始建立连接...");
 // 查询数据
@@ -20,7 +19,6 @@ function sql(sql, message) {
         Data = JSON.parse(JSON.stringify(data));//查询所得数据
         if (Data.length && init) {
           iniDate = [...Data, ...iniDate]//初始化数据
-          console.log(iniDate, index++)
         }
         resolve()
       }
@@ -56,7 +54,7 @@ function forEachSql(message, client) {
           })
         }
         receiveVal[index] = Data
-        console.log(receiveVal[index], "receiveVal[index]")
+        console.log(receiveVal[index], index,"receiveVal[index]")
       });
     });
     resolve()
@@ -73,6 +71,7 @@ wss.on("connection", (client) => {
         if (init) {
           //传输初始化数据
           client.send(JSON.stringify(iniDate));
+          console.log(iniDate,"iniDate")
           init = 0
         }
       })
