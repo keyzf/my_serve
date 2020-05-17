@@ -39,7 +39,6 @@ function forEachSql(message,client) {
         for(let data in Data[0]){
           if (data != receiveVal[index][0][data]) {
             client.send(JSON.stringify(Data));
-            receiveVal[index] = Data
             break;
           }
         }
@@ -50,12 +49,12 @@ function forEachSql(message,client) {
           for(let element in data){
             if (element != receiveVal[index][i][element]) {
               client.send(JSON.stringify(Data));
-              receiveVal[index] = Data
               break;
             }
           }
         })
       }
+      receiveVal[index] = Data
     });
 
   });
@@ -66,10 +65,7 @@ wss.on("connection", (client) => {
     check = setInterval(() => {
       status = 0;
       forEachSql(message,client)
-      if (status == 1 && !init) {
-        client.send(JSON.stringify(Data));
-        receiveVal = Data;
-      } else if (init) {
+      if (init) {
         //传输初始化数据
         client.send(JSON.stringify(iniDate));
         init = 0
