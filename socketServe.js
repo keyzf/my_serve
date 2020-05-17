@@ -4,6 +4,8 @@ const wss = new webSocket.Server({ port: 8081 });
 let receiveVal = [];
 let Data = [];
 let check = "";
+let JsonData = [];
+let init = 1;
 const sqlTable = ["aircondition", "door", "heater", "lamp", "sound"];
 console.log("开始建立连接...");
 function sql(sql,message) {
@@ -14,28 +16,34 @@ function sql(sql,message) {
       if (err) {
         console.log(err);
       } else {
-        if(sql == "aircondition"){
-          Data = []
-        }
-        let JsonData = JSON.parse(JSON.stringify(data));
-        Data = [...JsonData, ...Data];
+        JsonData = JSON.parse(JSON.stringify(data));
       }
     }
   );
 }
 function forEachSql(message){
-  sqlTable.forEach((item) => {
+  Data = []
+  sqlTable.forEach((item,index) => {
     sql(item,message);
+    if(JsonData.length == 1){
+      Data.push(JsonData[0]);
+    }else{
+      JsonData.forEach(data=>{
+        Data.push(data)
+      })
+    }
   });
 }
 wss.on("connection", (client) => {
   client.on("message", (message) => {
+    if(message){
+      init = 1
+    }
     clearInterval(check);
     check = setInterval(() => {
       let status = 0; 
       forEachSql(message)  
       if (receiveVal.length == Data.length) {
-        // console.log("send1")
         receiveVal.forEach((item, index) => {
           for (let element in item) {
             if (receiveVal[index][element] != Data[index][element]) {
@@ -46,8 +54,12 @@ wss.on("connection", (client) => {
       } else {
         status = 1;
       }
-      if (status == 1) {
+      if ( !init &&status == 1) {
         client.send(JSON.stringify(Data));
+        receiveVal = Data;
+      }else if(init){
+        client.send(JSON.stringify(Data));
+        init = 0
         receiveVal = Data;
       }
     }, 1000);
