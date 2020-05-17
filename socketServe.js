@@ -16,7 +16,6 @@ function sql(sql,message) {
         console.log(err);
       } else {
          Data = JSON.parse(JSON.stringify(data));//查询所得数据
-         console.log(Data,"Data")
          if(Data.length) {
           iniDate = [...Data,...iniDate]//初始化数据
          }
@@ -27,6 +26,7 @@ function sql(sql,message) {
 //查询五个表数据，是否含有
 function forEachSql(message){
   sqlTable.forEach((item,index) => {
+    console.log(item,message)
     sql(item,message);
     //初始化后监听数据库的变化
     // if(!ini && Data.length >=1){
