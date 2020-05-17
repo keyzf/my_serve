@@ -47,7 +47,6 @@ router.post("/equipmentlist", (req, res) => {
               zyfeng: 0,
               speed: 0,
               clear: 0,
-              time: 0,
               heat: 0,
               dry: 0,
               changer: 0,
