@@ -29,49 +29,53 @@ function sql(sql, message) {
 
 }
 //查询五个表数据，是否含有
-function forEachSql(message,client) {
-  sqlTable.forEach((item, index) => {
-    sql(item, message).then(() => {
-      // 初始化后监听数据库的变化
-      //判断查询是否只有一项
-      if (!init && Data.length == 1) {
-        console.log(Data,receiveVal,"Data[0],receiveVal[index][0]")
-        for(let data in Data[0]){
-          if (data != receiveVal[index][0][data]) {
-            client.send(JSON.stringify(Data));
-            break;
-          }
-        }
-      } 
-      //查询有多项时
-      else if(!init && Data.length >= 1) {
-        Data.forEach((data,i) => {
-          for(let element in data){
-            if (element != receiveVal[index][i][element]) {
+function forEachSql(message, client) {
+  return new Promise((resolve,reject) => {
+    sqlTable.forEach((item, index) => {
+      sql(item, message).then(() => {
+        // 初始化后监听数据库的变化
+        //判断查询是否只有一项
+        if (!init && Data.length == 1) {
+          console.log(Data, receiveVal, "Data[0],receiveVal[index][0]")
+          for (let data in Data[0]) {
+            if (data != receiveVal[index][0][data]) {
               client.send(JSON.stringify(Data));
               break;
             }
           }
-        })
-      }
-      receiveVal[index] = Data
-      console.log(receiveVal[index],"receiveVal[index]")
+        }
+        //查询有多项时
+        else if (!init && Data.length >= 1) {
+          Data.forEach((data, i) => {
+            for (let element in data) {
+              if (element != receiveVal[index][i][element]) {
+                client.send(JSON.stringify(Data));
+                break;
+              }
+            }
+          })
+        }
+        receiveVal[index] = Data
+        console.log(receiveVal[index], "receiveVal[index]")
+      });
     });
-  });
+    resolve()
+  })
 }
 wss.on("connection", (client) => {
   client.on("message", (message) => {
-    if(message){
+    if (message) {
       init = 1
     }
     clearInterval(check);
     check = setInterval(() => {
-      forEachSql(message,client)
-      if (init) {
-        //传输初始化数据
-        client.send(JSON.stringify(iniDate));
-        init = 0
-      }
+      forEachSql(message, client).then(() => {
+        if (init) {
+          //传输初始化数据
+          client.send(JSON.stringify(iniDate));
+          init = 0
+        }
+      })
     }, 1000);
   });
   client.on("close", () => {
