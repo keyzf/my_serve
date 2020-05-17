@@ -61,6 +61,9 @@ function forEachSql(message,client) {
 }
 wss.on("connection", (client) => {
   client.on("message", (message) => {
+    if(message){
+      init = 1
+    }
     clearInterval(check);
     check = setInterval(() => {
       forEachSql(message,client)
