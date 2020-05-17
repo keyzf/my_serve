@@ -44,7 +44,7 @@ function forEachSql(message,client) {
         }
       } 
       //查询有多项时
-      else {
+      else if(!init && Data.length >= 1) {
         Data.forEach((data,i) => {
           for(let element in data){
             if (element != receiveVal[index][i][element]) {
@@ -55,9 +55,8 @@ function forEachSql(message,client) {
         })
       }
       receiveVal[index] = Data
-      console.log(receiveVal[index])
+      console.log(receiveVal[index],"receiveVal[index]")
     });
-
   });
 }
 wss.on("connection", (client) => {
