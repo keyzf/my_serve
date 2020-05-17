@@ -16,7 +16,7 @@ function sql(sql,message) {
         console.log(err);
       } else {
          Data = JSON.parse(JSON.stringify(data));//查询所得数据
-         console.log(Data)
+         console.log(Data,"Data")
          if(Data.length) {
           iniDate = [...Data,...iniDate]//初始化数据
          }
@@ -58,6 +58,7 @@ wss.on("connection", (client) => {
       }else if(init){
         //传输初始化数据
         client.send(JSON.stringify(iniDate));
+        init = 0
       }
     }, 1000);
   });
