@@ -16,6 +16,7 @@ function sql(sql,message) {
         console.log(err);
       } else {
          Data = JSON.parse(JSON.stringify(data));//查询所得数据
+         console.log(Data)
          if(Data.length) {
           iniDate = [...Data,...iniDate]//初始化数据
          }
@@ -27,7 +28,22 @@ function sql(sql,message) {
 function forEachSql(message){
   sqlTable.forEach((item,index) => {
     sql(item,message);
-    receiveVal[index] = Data
+    //初始化后监听数据库的变化
+    // if(!ini && Data.length >=1){
+    //   Data[0].forEach(data=>{
+    //     //判断查询是否只有一项
+    //     if(Data.length == 1 ){
+    //       if(data != receiveVal[index][data]){
+    //         status = 1
+    //       }
+    //     }else{
+    //       if(data != receiveVal[index][data]){
+    //         status = 1
+    //       }
+    //     }
+    //   })
+  // }
+      receiveVal[index] = Data
   });
 }
 wss.on("connection", (client) => {
