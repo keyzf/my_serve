@@ -7,6 +7,7 @@ let check = "";
 let status = 0;
 let init = 1;
 let iniDate = [];
+let index = 1;
 const sqlTable = ["aircondition", "door", "heater", "lamp", "sound"];
 console.log("开始建立连接...");
 // 查询数据
@@ -16,6 +17,7 @@ function sql(sql,message) {
         console.log(err);
       } else {
          Data = JSON.parse(JSON.stringify(data));//查询所得数据
+         console.log(Data,index++)
          if(Data.length) {
           iniDate = [...Data,...iniDate]//初始化数据
          }
